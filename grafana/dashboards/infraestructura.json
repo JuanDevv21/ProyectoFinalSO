@@ -236,6 +236,40 @@
           "legendFormat": "{{container_label_com_docker_compose_service}}"
         }
       ]
+    },
+    {
+      "id": 9,
+      "title": "Actividad de disco por servicio",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 8
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_blkio_device_usage_total{container_label_com_docker_compose_project=\"proyecto-monitoreo\",operation=\"Read\"}[1m]))",
+          "legendFormat": "{{container_label_com_docker_compose_service}} lectura"
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_blkio_device_usage_total{container_label_com_docker_compose_project=\"proyecto-monitoreo\",operation=\"Write\"}[1m]))",
+          "legendFormat": "{{container_label_com_docker_compose_service}} escritura"
+        }
+      ],
+      "description": "Tasa de lectura y escritura que Linux registra por cgroup y dispositivo."
     }
   ]
 }

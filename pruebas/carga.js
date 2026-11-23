@@ -8,7 +8,7 @@ const valid = ['backend-1', 'backend-2', 'backend-3'];
 export const options = {
   scenarios: {
     local: { executor: 'constant-arrival-rate', rate: 40, timeUnit: '1s',
-      duration: '60s', preAllocatedVUs: 10, maxVUs: 40 },
+      duration: '60s', preAllocatedVUs: 40, maxVUs: 40 },
   },
   summaryTrendStats: ['avg', 'med', 'p(95)', 'p(99)', 'max'],
   thresholds: {

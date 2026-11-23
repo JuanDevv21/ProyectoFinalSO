@@ -40,7 +40,7 @@ Abre Nginx en el navegador. Luego verifica la distribución con 30 solicitudes e
 } | Group-Object | Select-Object Name, Count
 ```
 
-Comprueba que Prometheus muestre cinco objetivos activos. En su página de consultas verifica `up` y `nginx_up`. En Grafana selecciona los últimos cinco minutos. Bajo carga deben aparecer las tres series de solicitudes y latencia. Los paneles de cAdvisor muestran CPU, memoria, red y disco según las métricas que exponga el motor Linux.
+Comprueba que Prometheus muestre cinco objetivos activos. En su página de consultas verifica `up` y `nginx_up`. En Grafana selecciona los últimos cinco minutos. Bajo carga deben aparecer las tres series de solicitudes y latencia. Los paneles de cAdvisor muestran CPU, memoria, red, espacio ocupado y actividad de lectura y escritura según las métricas que exponga el motor Linux.
 
 ## Prueba de carga
 
@@ -62,7 +62,7 @@ También puedes ejecutar k6 en la red interna de Compose. Esta variante mide des
 New-Item -ItemType Directory resultados -Force | Out-Null
 docker run --rm --network proyecto-monitoreo_monitoreo -e TEST_URL=http://nginx/ --mount "type=bind,source=$PWD/pruebas,target=/pruebas,readonly" --mount "type=bind,source=$PWD/resultados,target=/resultados" grafana/k6:2.4.0 run --summary-export /resultados/k6.json /pruebas/carga.js
 ```
-Consulta `docker compose logs --tail 100` si un objetivo no responde. En Windows, comprueba que Docker Desktop use contenedores Linux. cAdvisor necesita acceso al cgroup, al socket Docker y al almacenamiento del motor. Si faltan métricas de disco según el controlador de almacenamiento, revisa el registro de cAdvisor y consulta `container_fs_usage_bytes` en Prometheus. Los puertos publicados se limitan a loopback.
+Consulta `docker compose logs --tail 100` si un objetivo no responde. En Windows, comprueba que Docker Desktop use contenedores Linux. cAdvisor necesita acceso al cgroup, al socket Docker y al almacenamiento del motor. Si faltan métricas de disco según el controlador de almacenamiento, revisa el registro de cAdvisor y consulta `container_fs_usage_bytes` en Prometheus. El panel Actividad de disco muestra lecturas y escrituras cuando Linux registra actividad de bloque por contenedor. Los puertos publicados se limitan a loopback.
 
 ```powershell
 docker compose down
